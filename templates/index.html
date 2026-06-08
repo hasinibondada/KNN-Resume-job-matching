@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNN Resume Job Matcher</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <span class="nav-brand">KNN Resume Matcher</span>
+      <div class="nav-links">
+        <a href="#" class="active" data-tab="dashboard">Dashboard</a>
+        <a href="#" data-tab="candidates">Candidates</a>
+        <a href="#" data-tab="predictor">Predictor</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- DASHBOARD -->
+    <section id="tab-dashboard" class="tab-content active">
+      <header class="section-header">
+        <h2>Dashboard</h2>
+        <p>KNN Model Overview &amp; Dataset Statistics</p>
+      </header>
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>Job Fit Distribution (Actual)</h3>
+          <div class="bar-chart" id="actual-chart"></div>
+        </div>
+        <div class="chart-card">
+          <h3>Job Fit Distribution (Predicted)</h3>
+          <div class="bar-chart" id="predicted-chart"></div>
+        </div>
+      </div>
+      <div class="chart-card full-width">
+        <h3>Candidates per Job Role</h3>
+        <div class="bar-chart" id="role-chart"></div>
+      </div>
+    </section>
+
+    <!-- CANDIDATES -->
+    <section id="tab-candidates" class="tab-content">
+      <header class="section-header">
+        <h2>Candidates</h2>
+        <p>Browse and filter all candidates</p>
+      </header>
+      <div class="filters">
+        <input type="text" id="search-input" placeholder="Search by Candidate ID...">
+        <select id="role-filter">
+          <option value="">All Roles</option>
+          <option value="1">Software Engineer</option>
+          <option value="2">Data Scientist</option>
+          <option value="3">DevOps Engineer</option>
+          <option value="4">Product Manager</option>
+        </select>
+        <select id="fit-filter">
+          <option value="">All Fits</option>
+          <option value="Good">Good</option>
+          <option value="Average">Average</option>
+          <option value="Poor">Poor</option>
+        </select>
+        <span class="result-count" id="result-count"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Exp</th>
+              <th>Skill Match</th>
+              <th>Prog Level</th>
+              <th>Domain Know</th>
+              <th>Certs</th>
+              <th>Coding Test</th>
+              <th>Comm</th>
+              <th>Role</th>
+              <th>Actual Fit</th>
+              <th>Predicted Fit</th>
+            </tr>
+          </thead>
+          <tbody id="candidates-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PREDICTOR -->
+    <section id="tab-predictor" class="tab-content">
+      <header class="section-header">
+        <h2>Job Fit Predictor</h2>
+        <p>Enter candidate details to predict job fit using KNN</p>
+      </header>
+      <div class="predictor-layout">
+        <div class="predictor-form card">
+          <div class="form-group">
+            <label>Years of Experience</label>
+            <input type="number" id="p-exp" step="0.1" min="0" max="20" value="3">
+          </div>
+          <div class="form-group">
+            <label>Skill Match Score (0-100)</label>
+            <input type="number" id="p-skill" min="0" max="100" value="60">
+          </div>
+          <div class="form-group">
+            <label>Programming Skill Level (1-5)</label>
+            <input type="number" id="p-prog" min="1" max="5" value="3">
+          </div>
+          <div class="form-group">
+            <label>Domain Knowledge Level (1-5)</label>
+            <input type="number" id="p-domain" min="1" max="5" value="3">
+          </div>
+          <div class="form-group">
+            <label>Certifications Count</label>
+            <input type="number" id="p-certs" min="0" max="10" value="1">
+          </div>
+          <div class="form-group">
+            <label>Coding Test Score (0-100)</label>
+            <input type="number" id="p-code" min="0" max="100" value="60">
+          </div>
+          <div class="form-group">
+            <label>Communication Score (1-10)</label>
+            <input type="number" id="p-comm" min="1" max="10" value="5">
+          </div>
+          <div class="form-group">
+            <label>Job Role</label>
+            <select id="p-role">
+              <option value="1">Software Engineer</option>
+              <option value="2">Data Scientist</option>
+              <option value="3">DevOps Engineer</option>
+              <option value="4">Product Manager</option>
+            </select>
+          </div>
+          <button id="predict-btn">Predict Job Fit</button>
+        </div>
+        <div class="predictor-results card" id="predict-results">
+          <div class="result-placeholder">Enter values and click Predict</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
