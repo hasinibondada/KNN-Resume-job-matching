@@ -26,12 +26,15 @@ y = df["Job_Fit"].values
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
+K_NEIGHBORS = 5
+
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+knn_eval = KNeighborsClassifier(n_neighbors=K_NEIGHBORS, weights='distance')
+knn_eval.fit(X_train, y_train)
+accuracy = accuracy_score(y_test, knn_eval.predict(X_test))
 
-knn = KNeighborsClassifier(n_neighbors=11)
-knn.fit(X_train, y_train)
-
-accuracy = accuracy_score(y_test, knn.predict(X_test))
+knn = KNeighborsClassifier(n_neighbors=K_NEIGHBORS, weights='distance')
+knn.fit(X_scaled, y)
 
 fit_encoder = label_encoders["Job_Fit"]
 
@@ -92,7 +95,7 @@ def predict():
     pred = knn.predict(features_scaled)[0]
     probs = knn.predict_proba(features_scaled)[0]
 
-    distances, indices = knn.kneighbors(features_scaled, n_neighbors=11)
+    distances, indices = knn.kneighbors(features_scaled, n_neighbors=K_NEIGHBORS)
     neighbors = []
     for i, idx in enumerate(indices[0]):
         row = df_original.iloc[idx]
@@ -121,7 +124,7 @@ def stats():
 
     return jsonify({
         "total_candidates": total,
-        "k_neighbors": 11,
+        "k_neighbors": K_NEIGHBORS,
         "accuracy": round(float(accuracy), 4),
         "job_roles": {str(k): {"name": v, "count": role_counts.get(k, 0)} for k, v in JOB_ROLES.items()},
         "actual_fit_distribution": fit_counts,

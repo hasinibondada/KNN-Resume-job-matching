@@ -195,7 +195,7 @@ async function handlePredict() {
       ${probBars}
     </div>
     <div class="neighbors-section">
-      <h4>11 Nearest Neighbors</h4>
+      <h4>${result.neighbors.length} Nearest Neighbors</h4>
       <table class="neighbors-table">
         <thead><tr><th>Candidate</th><th>Distance</th><th>Job Fit</th></tr></thead>
         <tbody>${neighborsRows}</tbody>
