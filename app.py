@@ -65,7 +65,7 @@ def get_candidates():
 
     cols = ["Candidate_ID", "Years_of_Experience", "Skill_Match_Score",
             "Programming_Skill_Level", "Domain_Knowledge_Level", "Certifications_Count",
-            "Coding_Test_Score", "Communication_Score", "Job_Role", "Job_Fit", "Predicted_Fit"]
+            "Coding_Test_Score", "Communication_Score", "Job_Role_Code", "Job_Role", "Job_Fit", "Predicted_Fit"]
     data = data[cols]
     data = data.sort_values("Predicted_Fit", ascending=False)
 
