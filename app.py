@@ -14,11 +14,10 @@ df = pd.read_excel("KNN_Resume_Job_Matching_Dataset.xlsx")
 JOB_ROLES = {1: "Software Engineer", 2: "Data Scientist", 3: "DevOps Engineer", 4: "Product Manager"}
 
 label_encoders = {}
-for col in df.columns:
-    if pd.api.types.is_string_dtype(df[col]) or df[col].dtype.name == "object":
-        le = LabelEncoder()
-        df[col] = le.fit_transform(df[col])
-        label_encoders[col] = le
+for col in df.select_dtypes(include=["object", "string"]).columns:
+    le = LabelEncoder()
+    df[col] = le.fit_transform(df[col])
+    label_encoders[col] = le
 
 feature_cols = [c for c in df.columns if c not in ("Candidate_ID", "Job_Fit")]
 X = df[feature_cols].values
