@@ -15,7 +15,7 @@ JOB_ROLES = {1: "Software Engineer", 2: "Data Scientist", 3: "DevOps Engineer", 
 
 label_encoders = {}
 for col in df.columns:
-    if df[col].dtype == "object":
+    if pd.api.types.is_string_dtype(df[col]) or df[col].dtype.name == "object":
         le = LabelEncoder()
         df[col] = le.fit_transform(df[col])
         label_encoders[col] = le
